@@ -59,11 +59,17 @@ public class ConsumerInfoServiceImpl implements ConsumerInfoService {
                     }
 
                     for(ConsumerInfo consumerInfo : consumerInfoList){
-
-                        if(localDateTime.getMonthValue() >= consumerInfo.getConsumerTime().getMonthValue() && localDateTime.getMonthValue() != consumerInfo.getConsumerTime().getMonthValue()){
-                            resultList.add(new ConsumerInfo(staticsResultByMonth(userId, consumerInfo.getConsumerTime())));
-                            localDateTime = consumerInfo.getConsumerTime();
+                        if(localDateTime.getYear() == consumerInfo.getConsumerTime().getYear()){
+                            if(localDateTime.getMonthValue() > consumerInfo.getConsumerTime().getMonthValue()){
+                                resultList.add(new ConsumerInfo(staticsResultByMonth(userId, consumerInfo.getConsumerTime())));
+                            }
+                        } else {
+                            if(localDateTime.getMonthValue() < consumerInfo.getConsumerTime().getMonthValue()){
+                                resultList.add(new ConsumerInfo(staticsResultByMonth(userId, consumerInfo.getConsumerTime())));
+                            }
                         }
+
+                        localDateTime = consumerInfo.getConsumerTime();
 
                         resultList.add(consumerInfo);
                     }
