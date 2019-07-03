@@ -123,6 +123,12 @@ public class ConsumerInfoServiceImpl implements ConsumerInfoService {
                 String consumerTime = editConsumerInfoRequest.getConsumerTime() + ":00";
                 info.setConsumerTime(DateAndTimeUtil.stringToLocalDateTime(consumerTime));
                 BeanUtils.copyProperties(editConsumerInfoRequest, info, "id", "consumerTime");
+
+                if("08".equals(editConsumerInfoRequest.getParentCode())){
+                    info.setDigest(Constant.INCOME);
+                    info.setStatus(Constant.PRESUMING);
+                }
+
                 if(consumerInfoRepository.save(info) != null){
                     return Result.success(info);
                 }
